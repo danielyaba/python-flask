@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Helm Chart dependencies
+charts/
+Chart.lock
