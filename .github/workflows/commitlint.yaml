@@ -1,0 +1,32 @@
+# name: Commitlint
+#
+# on:
+#   pull_request:
+#     branches:
+#       - main # Trigger on pull requests to the main branch
+#
+# jobs:
+#   commitlint:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       # Checkout the repository
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+#
+#       # Set up Node.js
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: "16"
+#
+#       # Install commitlint
+#       - name: Install commitlint
+#         run: |
+#           npm install --save-dev @commitlint/{config-conventional,cli}
+#           echo "module.exports = {extends: ['@commitlint/config-conventional']};" > commitlint.config.js
+#
+#       # Run commitlint
+#       - name: Lint commit messages
+#         run: |
+#           npx commitlint --from=HEAD~10 --to=HEAD
