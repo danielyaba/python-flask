@@ -5,6 +5,10 @@ on:
     branches:
       - main # Trigger on pushes to the main branch
 
+    paths:
+      - "Dockerfile"
+      - "src/**"
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
