@@ -44,9 +44,12 @@ jobs:
           sed -i "s|tag:.*|tag: dev-${{ env.SHORT_SHA }}|" deployment/values.yaml
 
       - name: Commit and Push Updated values.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTIHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
           git add deployment/values.yaml
           git commit -m "ci: update image tag to dev-${{ env.SHORT_SHA }}"
           git push
