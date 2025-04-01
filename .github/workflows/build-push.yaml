@@ -8,6 +8,7 @@ on:
     paths:
       - "Dockerfile"
       - "src/**"
+      - "requirements.txt"
 
 jobs:
   build-and-push:
