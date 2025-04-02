@@ -3,7 +3,7 @@ application:
   deployment:
     image:
       repository: danielyaba/python-flask
-      tag: 1.0.0
+      tag: dev
 
     # Startup, Readiness and Liveness probes
     startupProbe:

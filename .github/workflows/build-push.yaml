@@ -3,11 +3,12 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main # Trigger on pushes to the main branch
+      - dev # Trigger on pushes to the main branch
 
     paths:
       - "Dockerfile"
       - "src/**"
+      - "requirements.txt"
 
 jobs:
   build-and-push:
@@ -25,12 +26,31 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Get Short Commit SHA
+        id: vars
+        run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       # Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-app:dev-${{ env.SHORT_SHA }} .
 
       # Push the Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:dev-${{ env.SHORT_SHA }}
+
+      - name: Update values.yaml
+        run: |
+          sed -i "s|tag:.*|tag: dev-${{ env.SHORT_SHA }}|" deployment/values.yaml
+
+      - name: Commit and Push Updated values.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTIHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git
+          git add deployment/values.yaml
+          git commit -m "ci: update image tag to dev-${{ env.SHORT_SHA }}"
+          git push
