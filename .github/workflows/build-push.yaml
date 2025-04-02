@@ -46,7 +46,7 @@ jobs:
 
       - name: Commit and Push Updated values.yaml
         env:
-          GITHUB_TOKEN: ${{ secrets.GTIHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
