@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the Home Page!</h1>
+    <p>This is the main page of our Flask application.</p>
+    <ul>
+        <li>Check out the <a href="{{ url_for('about') }}">About</a> page for more information.</li>
+    </ul>
+{% endblock %}
